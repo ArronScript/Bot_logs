@@ -23,9 +23,7 @@ async def start(message: types.Message) -> None:
         session.commit()
     await bot.send_message(
         chat_id=message.from_user.id,
-        text=f'👋Приветствую, {message.from_user.first_name}\n'
-             f'\n'
-             f'📂Это телеграм бот для автоматического принятия файлов с вашими запросами!',
+        text=f'start massange',
         reply_markup=start_keyboard
     )
 
@@ -35,13 +33,13 @@ async def get_file(message: types.Message, state: FSMContext):
     if message.document.file_size > 24:
         tp_log = await state.get_data()
         order = Orders(logs_types=' '.join(tp_log[str(message.from_user.id)]),
-                       status="Очередь", user_id=message.from_user.id)
+                       status="queue ", user_id=message.from_user.id)
         session.add(order)
         session.commit()
 
         await bot.send_message(
             chat_id=message.from_user.id,
-            text=f'Заявка успешно оставленна #{order.id}',
+            text=f'Order id #{order.id}',
             reply_markup=back_menu()
         )
 
@@ -51,12 +49,7 @@ async def get_file(message: types.Message, state: FSMContext):
         )
 
         await bot.send_message(
-            text='Новый лог!\n'
-                 f'ID заявки: {order.id}\n'
-                 f'Логи: {order.logs_types}\n'
-                 f'Статус: {order.status}\n'
-                 f'ID логера: {order.user_id}\n'
-                 f'Username логера: @{session.query(User).filter(User.telegram_id == order.user_id).first().username}',
+            text='admin log',
             chat_id=settings.admins[0],
             reply_markup=edit_status_order_kb(order_id=str(order.id))
         )
@@ -64,7 +57,7 @@ async def get_file(message: types.Message, state: FSMContext):
 
         await bot.send_message(
             chat_id=message.from_user.id,
-            text='Ваш файл пустой!',
+            text='your file is empty',
             reply_markup=back_menu()
 
         )
