@@ -25,7 +25,7 @@ choice_list: dict[str, list[str]] = {}
 @callback_handler.callback_query(F.data == "work")
 async def choose_work(query: types.CallbackQuery, state: FSMContext) -> None:
     await query.message.edit_text(
-        text="Выберете что будете отрабатывать", reply_markup=create_work_choice()
+        text="Choice what u want", reply_markup=create_work_choice()
     )
 
     choice_list.update({str(query.from_user.id): []})
@@ -41,9 +41,7 @@ async def choose_work(query: types.CallbackQuery, state: FSMContext) -> None:
     choice_list[str(query.from_user.id)].clear()
 
     await query.message.edit_text(
-        text=f"👋Приветствую, {query.from_user.first_name}\n"
-        f"\n"
-        f"📂Это телеграм бот для автоматического принятия файлов с вашими запросами!",
+        text=f"main massange",
         reply_markup=start_keyboard,
     )
 
@@ -51,9 +49,7 @@ async def choose_work(query: types.CallbackQuery, state: FSMContext) -> None:
 async def choose_work_notclearstate(query: types.CallbackQuery) -> None:
 
     await query.message.edit_text(
-        text=f"👋Приветствую, {query.from_user.first_name}\n"
-        f"\n"
-        f"📂Это телеграм бот для автоматического принятия файлов с вашими запросами!",
+        text=f"main massange",
         reply_markup=start_keyboard,
     )
 
@@ -71,7 +67,7 @@ async def choose_work_selection(
     change_name(choice_keys=choice_list[str(query.from_user.id)])
 
     await query.message.edit_text(
-        text="Выберете что будете отрабатывать",
+        text="Choice what u want",
         reply_markup=create_work_choice(
             choice_keys_list=choice_list[str(query.from_user.id)]
         ),
@@ -82,7 +78,7 @@ async def choose_work_selection(
 async def not_select_category(query: types.CallbackQuery, state: FSMContext) -> None:
     if not choice_list[str(query.from_user.id)]:
         await query.message.edit_text(
-            text="Вы не выбрали категорию!",
+            text="Choice category",
             reply_markup=back_menu(),
         )
 
@@ -90,22 +86,15 @@ async def not_select_category(query: types.CallbackQuery, state: FSMContext) -> 
         await state.set_state(UserState.wait_file)
         await state.set_data(choice_list)
         await query.message.edit_text(
-            text=f"Отлично!\n"
-                 f"Теперь отпрвате файл с логами:",
+            text=f"Correct!\n"
+                 f"Check log file: ",
             reply_markup=back_menu(),
         )
 
 @callback_handler.callback_query(F.data == 'profile')
 async def profile(query: types.CallbackQuery, state: FSMContext) -> None:
     await query.message.edit_text(
-        text=f"📔 Личный кабинет\n"
-             f"\n"
-             f"💎 Уникальный ID: {query.from_user.id}\n"
-             f"👤Никнейм: {query.from_user.username}\n"
-             f"💸Баланс: {session.query(User).filter(User.telegram_id == query.from_user.id).first().balance}\n"
-             f"\n"
-             f"💲 Вы заработали с нами: {session.query(User).filter(User.telegram_id == query.from_user.id).first().all_time_balance} рублей",
-
+        text=f"Profile",
         reply_markup=back_menu_profile(),
     )
 
@@ -125,17 +114,14 @@ async def ord_list_profile(query: types.CallbackQuery) -> None:
 @callback_handler.callback_query(F.data == 'conn')
 async def conn_links(query: types.CallbackQuery) -> None:
     await query.message.edit_text(
-        text='Вот все актуальные ссылочки!',
+        text='actual links',
         reply_markup=call_kb()
     )
 
 @callback_handler.callback_query(F.data == 'rules')
 async def profile(query: types.CallbackQuery) -> None:
     await query.message.edit_text(
-        text='⚠️Процент отработки: 70/30%\n'
-             '⚠️Для чека используем: Simple Checker, результаты отрабатываются руками.\n'
-             '⚠️Не беру логи с облак (обсуждаемо) и раздач, СНГ логи.\n'
-             '⚠️Беру от 5 логов, свежестью до 2х недель.',
+        text='logs rules',
         reply_markup=back_menu_orders()
     )
 
@@ -163,19 +149,6 @@ async def edit_status(query: types.CallbackQuery, callback_data: EditOrd) -> Non
 @callback_handler.callback_query(F.data == 'current_requests')
 async def profile(query: types.CallbackQuery) -> None:
     await query.message.edit_text(
-        text='Мы отрабатываем:\n'
-             '<code>Steam</code>\n'
-             '<code>Mihoyo</code>\n'
-             '<code>EpicGames</code>\n'
-             '<code>Battle.net</code>\n'
-             '<code>Tarkov</code>\n'
-             '<code>Minecraft</code>\n'
-             '<code>RiotGames</code>\n'
-             '<code>Roblox</code>\n'
-             '<code>EA+Ubisoft</code>\n'
-             '<code>Pubg mobile</code>\n'
-             '<code>Supercell</code>\n'
-             '<code>Rockstar games</code>\n'
-             '<code>Albion</code>',
+        text='text current_requests',
         reply_markup=back_menu_orders()
     )
