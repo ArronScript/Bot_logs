@@ -15,15 +15,15 @@ class EditOrd(CallbackData, prefix="status"):
     order_id: str
 
 
-work = InlineKeyboardButton(text="🗂Отправить на отработку", callback_data="work")
+work = InlineKeyboardButton(text="Working off", callback_data="work")
 
-profile = InlineKeyboardButton(text="👤Профиль", callback_data="profile")
-conn = InlineKeyboardButton(text="📞Связь", callback_data="conn")
+profile = InlineKeyboardButton(text="Profile", callback_data="profile")
+conn = InlineKeyboardButton(text="call", callback_data="conn")
 
-rules = InlineKeyboardButton(text="📄Правила", callback_data="rules")
+rules = InlineKeyboardButton(text="Rules", callback_data="rules")
 
 current_requests = InlineKeyboardButton(
-    text="💸Актуальные запросы", callback_data="current_requests"
+    text="Actual", callback_data="current_requests"
 )
 
 start_keyboard = InlineKeyboardMarkup(
@@ -92,9 +92,9 @@ def create_work_choice(choice_keys_list=None) -> InlineKeyboardMarkup:
         callback_data=WorkChoice(callback="albion").pack(),
     )
     current_button = InlineKeyboardButton(
-        text="Подтвердить", callback_data="current_work"
+        text="Correct", callback_data="current_work"
     )
-    back_menu_button = InlineKeyboardButton(text="Назад", callback_data="back_menu")
+    back_menu_button = InlineKeyboardButton(text="back", callback_data="back_menu")
 
     work_choice_keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -139,11 +139,11 @@ def back_menu_orders() -> InlineKeyboardMarkup:
 
 
 def call_kb() -> InlineKeyboardMarkup:
-    helper_button = InlineKeyboardButton(text="Поддержка", url=settings.url_helper)
-    forum_button = InlineKeyboardButton(text="Поддержка", url=settings.url_forum)
+    helper_button = InlineKeyboardButton(text="Support", url=settings.url_helper)
+    forum_button = InlineKeyboardButton(text="Support", url=settings.url_forum)
 
     back_menu_button = InlineKeyboardButton(
-        text="Назад", callback_data="back_menu_solo_profile"
+        text="back", callback_data="back_menu_solo_profile"
     )
     call_keyboard = InlineKeyboardMarkup(
         inline_keyboard=[[helper_button], [forum_button], [back_menu_button]]
@@ -152,11 +152,11 @@ def call_kb() -> InlineKeyboardMarkup:
 
 
 def edit_status_order_kb(order_id):
-    hire_button = InlineKeyboardButton(text="Принять в работу",
+    hire_button = InlineKeyboardButton(text="Hire",
                                        callback_data=EditOrd(callback='heir', order_id=order_id).pack())
-    reject_button = InlineKeyboardButton(text="Отклонить",
+    reject_button = InlineKeyboardButton(text="Delete",
                                          callback_data=EditOrd(callback="reject", order_id=order_id).pack())
-    pay_button = InlineKeyboardButton(text="Выплачена", callback_data=EditOrd(callback="pay", order_id=order_id).pack())
+    pay_button = InlineKeyboardButton(text="paid", callback_data=EditOrd(callback="pay", order_id=order_id).pack())
     edit_status_order = InlineKeyboardMarkup(
         inline_keyboard=[[hire_button], [reject_button], [pay_button]]
     )
